@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Prototype</title>
-    <script src="{{url_for('static', filename='main.js')}}"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
 <div class="container">
@@ -12,9 +12,9 @@
             <label for="valve"> Enter valve position in % 0-100</label>
             <input type="number" min="0" max="100" id="valve"/>
         </span>
-        <button onclick="sendData()">Send position</button>
-        <button onclick="sendData()">Get current position</button>
-        <button onclick="sendData()">Get battery voltage</button>
+        <button onclick="sendPosition(this)">Send position</button>
+        <button onclick="getPosition(this)">Get current position</button>
+        <button onclick="getBatteryVoltage(this)">Get battery voltage</button>
     </div>
     <div class="messages">
         <span>
@@ -33,6 +33,7 @@
     </div>
 </div>
 </body>
+<script src="{{url_for('static', filename='main.js')}}"></script>
 <style>
     div.buttons, div.messages {
         display: flex;
