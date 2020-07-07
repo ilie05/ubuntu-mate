@@ -4,7 +4,8 @@ import codecs
 
 class Communicator:
     def __init__(self):
-        self.host = '24.166.74.182'
+        # self.host = '24.166.74.182'
+        self.host = '192.168.1.115'
         self.port = 8899
         self.socket = None
 

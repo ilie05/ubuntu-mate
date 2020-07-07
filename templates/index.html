@@ -6,6 +6,69 @@
     <script src="{{url_for('static', filename='main.js')}}"></script>
 </head>
 <body>
-    <button onclick="sendData()">Send</button>
+<div class="container">
+    <div class="buttons">
+        <span style="margin-left: 10px">
+            <label for="valve"> Enter valve position in % 0-100</label>
+            <input type="number" min="0" max="100" id="valve"/>
+        </span>
+        <button onclick="sendData()">Send position</button>
+        <button onclick="sendData()">Get current position</button>
+        <button onclick="sendData()">Get battery voltage</button>
+    </div>
+    <div class="messages">
+        <span>
+            <label for="status">Status</label>
+            <input id="status" disabled>
+        </span>
+        <span>
+            <label for="position">Gate position</label>
+            <input id="position" disabled>
+        </span>
+        <span>
+            <label for="battery">Battery Voltage</label>
+            <input id="battery" disabled>
+        </span>
+
+    </div>
+</div>
 </body>
+<style>
+    div.buttons, div.messages {
+        display: flex;
+        flex-direction: column;
+        margin: 5px;
+    }
+
+    div.container {
+        display: flex;
+        justify-content: space-between;
+        width: 600px;
+    }
+
+    span {
+        margin-top: 10px;
+        display: grid;
+    }
+
+    button {
+        margin: 10px;
+        width: 60%;
+        height: 40px;
+    }
+
+    input {
+        margin-bottom: 10px;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
 </html>

@@ -5,7 +5,7 @@ const sendData = () => {
                 return res.json();
         })
         .then(json => {
-            console.log(json)
+            console.log(json);
             return fetch('/move')
         })
         .then(res => {
@@ -13,6 +13,7 @@ const sendData = () => {
                 return res.json();
         })
         .then(json => {
-            console.log(json)
+            console.log(json);
         })
+        .catch(err => console.log(err));
 }
