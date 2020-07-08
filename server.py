@@ -25,6 +25,18 @@ def move():
     return jsonify(data)
 
 
+@app.route('/position')
+def position():
+    data = comm.current_position()
+    return jsonify(data)
+
+
+@app.route('/battery')
+def battery():
+    data = comm.battery_pos()
+    return jsonify(data)
+
+
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(host='0.0.0.0', port=80)

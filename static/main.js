@@ -47,9 +47,39 @@ const sendPosition = (context) => {
 }
 
 const getPosition = (context) => {
+    context.disabled = true;
+    position.value = '';
+    status.value = 'Command Sent...';
 
+    fetch('/position')
+        .then(res => {
+            if (res.ok && res.status === 200)
+                return res.json();
+        })
+        .then(data => {
+            console.log(data);
+            status.value = 'Position Updated...';
+            position.value = data;
+        })
+        .catch(err => console.log(err))
+        .finally(() => context.disabled = false)
 }
 
 const getBatteryVoltage = (context) => {
+    context.disabled = true;
+    battery.value = '';
+    status.value = 'Command Sent...';
 
+    fetch('/battery')
+        .then(res => {
+            if (res.ok && res.status === 200)
+                return res.json();
+        })
+        .then(data => {
+            console.log(data);
+            status.value = 'Battery Updated...';
+            battery.value = data;
+        })
+        .catch(err => console.log(err))
+        .finally(() => context.disabled = false)
 }
