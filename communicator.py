@@ -2,6 +2,11 @@ import socket
 import codecs
 
 
+def get_last_byte(byte):
+    data = byte.hex()[-2:]
+    return int(data, 16)
+
+
 class Communicator:
     def __init__(self):
         # self.host = '24.166.74.182'
@@ -10,35 +15,40 @@ class Communicator:
         self.socket = None
 
     def send_position(self, valve_pos):
+        valve_pos = int(valve_pos)
+        if not (0 <= valve_pos <= 100):
+            return None
+
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((self.host, self.port))
-        # send_data = "\xAA\x55\x01\x11"
-        # print(send_data)
-        send_data = b'\xAA\x55\x01\x45'
-        # print(send_data)
+        send_data = b'\xAA\x55\x01%b' % (chr(valve_pos)).encode()
+        print(send_data.hex())
         self.socket.send(send_data)
         recv_data = self.socket.recv(4)
 
-        print(recv_data.hex())
-        return recv_data.hex()
+        data = recv_data.hex()
+        print(data)
+        if data == '31313131':
+            self.socket.close()
+            raise ValueError('31313131 Error received from TCP server')
+        return data
 
     def moving(self):
         recv_data = self.socket.recv(4)
-        data = recv_data.hex()[-2:]
+        data = get_last_byte(recv_data)
         self.socket.close()
-        return int(data, 16)
+        return data
 
     def current_position(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((self.host, self.port))
         send_data = b'\xAA\x55\x05\x00'
         self.socket.send(send_data)
-        self.socket.send(send_data)
         recv_data = self.socket.recv(4)
 
-        data = recv_data.hex()[-2:]
+        data = get_last_byte(recv_data)
         self.socket.close()
-        return int(data, 16)
+        return data
 
     def battery_pos(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -47,6 +57,6 @@ class Communicator:
         self.socket.send(send_data)
         recv_data = self.socket.recv(4)
 
-        data = recv_data.hex()[-2:]
+        data = get_last_byte(recv_data)
         self.socket.close()
-        return int(data, 16) / 10
+        return data / 10

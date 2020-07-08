@@ -12,9 +12,9 @@
             <label for="valve_pos"> Enter valve position in % 0-100</label>
             <input type="number" min="0" max="100" id="valve_pos"/>
         </span>
-        <button onclick="sendPosition(this)">Send position</button>
-        <button onclick="getPosition(this)">Get current position</button>
-        <button onclick="getBatteryVoltage(this)">Get battery voltage</button>
+        <button onclick="sendPosition(this)" id="btn_send_pos">Send position</button>
+        <button onclick="getPosition(this)" id="btn_get_pos">Get current position</button>
+        <button onclick="getBatteryVoltage(this)" id="btn_battery">Get battery voltage</button>
     </div>
     <div class="messages">
         <span>

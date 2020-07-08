@@ -6,16 +6,23 @@ const status = getField('status');
 const position = getField('position');
 const battery = getField('battery');
 
-// const status = getField('status');
-// const position = getField('position');
-// const battery = getField('battery');
+const btn_send_pos = getField('btn_send_pos');
+const btn_get_pos = getField('btn_get_pos');
+const btn_battery = getField('btn_battery');
+
+const toggleButtons = (state) => {
+    btn_send_pos.disabled = state;
+    btn_get_pos.disabled = state;
+    btn_battery.disabled = state;
+}
 
 const sendPosition = (context) => {
     const valveVal = valve_pos.value;
     if (valveVal === '' || valveVal < 0 || valveVal > 100 || isNaN(Number(valveVal))) return;
 
-    context.disabled = true;
+    toggleButtons(true);
     status.value = 'Command Sent...';
+    position.value = '';
     fetch('/send', {
         method: "POST",
         body: JSON.stringify({valve_pos: valveVal})
@@ -23,6 +30,9 @@ const sendPosition = (context) => {
         .then(res => {
             if (res.ok && res.status === 200)
                 return res.json();
+            else {
+                throw Error("Internal server error")
+            }
         })
         .then(data => {
             console.log(data);
@@ -38,16 +48,13 @@ const sendPosition = (context) => {
             status.value = 'Position Updated...';
             position.value = data;
             console.log(data);
-
         })
         .catch(err => console.log(err))
-        .finally(() => {
-            context.disabled = false;
-        })
+        .finally(() => toggleButtons(false));
 }
 
 const getPosition = (context) => {
-    context.disabled = true;
+    toggleButtons(true);
     position.value = '';
     status.value = 'Command Sent...';
 
@@ -62,11 +69,11 @@ const getPosition = (context) => {
             position.value = data;
         })
         .catch(err => console.log(err))
-        .finally(() => context.disabled = false)
+        .finally(() => toggleButtons(false));
 }
 
 const getBatteryVoltage = (context) => {
-    context.disabled = true;
+    toggleButtons(true);
     battery.value = '';
     status.value = 'Command Sent...';
 
@@ -81,5 +88,5 @@ const getBatteryVoltage = (context) => {
             battery.value = data;
         })
         .catch(err => console.log(err))
-        .finally(() => context.disabled = false)
+        .finally(() => toggleButtons(false));
 }
