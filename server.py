@@ -3,7 +3,8 @@ from communicator import Communicator
 import json
 
 app = Flask(__name__)
-comm = Communicator()
+app.config.from_pyfile('config.cfg')
+comm = Communicator(app.config['IP_ADDR'], app.config['PORT'])
 
 
 @app.route('/')

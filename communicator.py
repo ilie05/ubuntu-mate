@@ -8,10 +8,9 @@ def get_last_byte(byte):
 
 
 class Communicator:
-    def __init__(self):
-        # self.host = '24.166.74.182'
-        self.host = '192.168.1.121'
-        self.port = 8899
+    def __init__(self, ip_addr, port):
+        self.host = ip_addr
+        self.port = port
         self.socket = None
 
     def send_position(self, valve_pos):
